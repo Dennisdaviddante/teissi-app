@@ -142,8 +142,7 @@ import {
   export default {
       components: {
         FileTextIcon,
-    FormCardd, // Registra el componente FormCardd
-    // No necesitas registrar UserIcon aquí si solo lo pasas como prop.
+    FormCardd, 
   },
     data() {
       return {
@@ -157,7 +156,7 @@ import {
 
 formatDateToReadable(isoDateString) {
   console.log('--- formatDateToReadable llamada ---');
-  console.log('isoDateString recibido:', isoDateString); // **Importante:** Verifica qué llega aquí
+  console.log('isoDateString recibido:', isoDateString); 
 
   if (!isoDateString || typeof isoDateString !== 'string') {
     console.warn('formatDateToReadable: Valor de entrada no válido. Retornando "Fecha no disponible".');
@@ -165,12 +164,11 @@ formatDateToReadable(isoDateString) {
   }
 
   const date = new Date(isoDateString);
-  console.log('Objeto Date creado:', date); // **Importante:** ¿Es "Invalid Date"?
+  console.log('Objeto Date creado:', date); 
 
-  // Si la fecha es inválida (ej. "Invalid Date" en el console.log anterior)
   if (isNaN(date.getTime())) {
     console.error('formatDateToReadable: La fecha parseada es inválida. Asegúrese de que isoDateString es un formato válido.');
-    return 'Fecha inválida'; // Si ves esto en el campo, sabes que la fecha de origen es mala
+    return 'Fecha inválida'; 
   }
 
   const dateOptions = {
@@ -179,7 +177,7 @@ formatDateToReadable(isoDateString) {
     day: 'numeric',
   };
 
-  // 'es-EC' para español de Ecuador
+ 
   const formattedDate = date.toLocaleDateString('es-EC', dateOptions);
   console.log('Fecha formateada retornada:', formattedDate); // **Importante:** ¿Qué cadena final es?
 
@@ -206,13 +204,12 @@ formatDateToReadable(isoDateString) {
     },
 computed: {
   fullName() {
-    // Forzamos un acceso para asegurarnos que la reactividad se "enganche" a student
-    // Aunque ya lo hace implícitamente, esto puede ayudar a depurar si hay un bug raro
+    
     const tempStudent = this.student; 
     console.log('--- Calculando fullName ---');
-    console.log('tempStudent:', tempStudent); // Usamos tempStudent aquí
+    console.log('tempStudent:', tempStudent); 
 
-    if (tempStudent) { // Usamos tempStudent aquí
+    if (tempStudent) { 
       const firstName = tempStudent.firstName || '';
       const lastName = tempStudent.lastName || '';
 
@@ -225,13 +222,12 @@ computed: {
     return '';
   },
    assignedPsychologistFullName() {
-      // Asegúrate de que tanto student como assignedPsychologist existan
       if (this.student && this.student.assignedPsychologist) {
         const psychologist = this.student.assignedPsychologist;
         const firstName = psychologist.firstName || '';
         const lastName = psychologist.lastName || '';
         const full = `${firstName} ${lastName}`.trim();
-        console.log('assignedPsychologistFullName calculado:', full); // Log diferenciado
+        console.log('assignedPsychologistFullName calculado:', full); 
         return full;
       }
       console.log('assignedPsychologist es null o no existe, retornando vacío para assignedPsychologistFullName.');
@@ -242,7 +238,7 @@ computed: {
       setup() {
     return {
       UserIcon,
-      FileTextIcon// Retornas UserIcon para que sea accesible en la plantilla.
+      FileTextIcon
     }}
 
   }
