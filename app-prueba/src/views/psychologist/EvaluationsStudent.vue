@@ -179,7 +179,7 @@ formatDateToReadable(isoDateString) {
 
  
   const formattedDate = date.toLocaleDateString('es-EC', dateOptions);
-  console.log('Fecha formateada retornada:', formattedDate); // **Importante:** ¿Qué cadena final es?
+  console.log('Fecha formateada retornada:', formattedDate); 
 
   return formattedDate;
 },
@@ -206,8 +206,7 @@ computed: {
   fullName() {
     
     const tempStudent = this.student; 
-    console.log('--- Calculando fullName ---');
-    console.log('tempStudent:', tempStudent); 
+
 
     if (tempStudent) { 
       const firstName = tempStudent.firstName || '';
@@ -218,7 +217,6 @@ computed: {
       console.log('fullName calculado:', full);
       return full;
     }
-    console.log('student es null, retornando vacío.');
     return '';
   },
    assignedPsychologistFullName() {
@@ -250,6 +248,8 @@ computed: {
 /* Custom form styles */
 .form-input {
   @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors;
+  cursor: not-allowed;
+
 }
 
 .form-textarea {
