@@ -290,7 +290,8 @@ Características principales:
         <p><strong>Observaciones:</strong> {{ assessment.observations || 'Ninguna' }}</p>
         <p><strong>Comentarios finales:</strong> {{ assessment.finalRemarks || 'Ninguno' }}</p>
      -->
-        <!-- <div class="mt-2">
+        <!--
+     <div class="mt-2">
           <strong>Detalles de ideación:</strong>
           <ul class="list-disc list-inside">
             <li>Deseo de morir: <span class="font-semibold">{{assessment.deathWish.present ? 'Sí' : 'No' }}</span></li>
@@ -349,7 +350,8 @@ Características principales:
             <li v-if="assessment.interruptedAttempt.description && assessment.interruptedAttempt.description.trim() !== ''">
               Descripción del Intento interrumpido:: <span class="font-semibold">{{ assessment.interruptedAttempt.description }}</span>
             </li>            
-            <!-- <li v-if="assessment.actualAinterruptedAttemptttempt.totalAttempts && assessment.interruptedAttempt.totalAttempts !== 0">
+            <!-- 
+            <li v-if="assessment.actualAinterruptedAttemptttempt.totalAttempts && assessment.interruptedAttempt.totalAttempts !== 0">
               Numero total de intentos: <span class="font-semibold">{{ assessment.interruptedAttempt.totalAttempts }}</span>
             </li> -->
             <!-- <li v-if="assessment.abortedAttempt.present !== false">

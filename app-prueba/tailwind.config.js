@@ -7,6 +7,24 @@ export default {
   ],
   theme: {
     extend: {
+      colors: { // <-- ¡AQUÍ ES DONDE VA!
+        primary: {
+          // Puedes definir diferentes tonos, como los colores predeterminados de Tailwind
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6', // Este es el color que te falta: primary-500
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          950: '#172554',
+        },
+        // Aquí puedes añadir otros colores personalizados como 'secondary'
+      },
+      // El resto de tus extensiones van aquí, fuera de 'colors'
       perspective: {
         'none': 'none',
         'sm': '500px',
@@ -20,16 +38,15 @@ export default {
         'preserve-3d': 'preserve-3d',
       },
       animation: {
-        'rotate-cube': 'rotate-cube 8s linear infinite', 
-        // Cambia la duración de 'blob' para que sea más lenta y visible el desplazamiento
-        'blob': 'blob 25s cubic-bezier(0.4, 0, 0.2, 1) infinite', 
+        'rotate-cube': 'rotate-cube 8s linear infinite',
+        'blob': 'blob 25s cubic-bezier(0.4, 0, 0.2, 1) infinite',
       },
       keyframes: {
         'rotate-cube': {
           '0%': { transform: 'rotateX(0deg) rotateY(0deg)' },
           '100%': { transform: 'rotateX(360deg) rotateY(360deg)' },
         },
-        'blob': { // Aumenta significativamente los valores de translate y la variación de scale
+        'blob': {
           '0%': { transform: 'translate(0vw, 0vh) scale(1)' },
           '20%': { transform: 'translate(-5vw, 15vh) scale(1.2)' },
           '40%': { transform: 'translate(10vw, -10vh) scale(0.9)' },

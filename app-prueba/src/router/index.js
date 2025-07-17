@@ -93,6 +93,11 @@ const routes = [
         component: StudentDetailsView
       },
       {
+        path: 'studenteva/:id',
+        name: 'student-evaluation',
+        component: () => import('../views/psychologist/EvaluationsStudent.vue')
+      },
+      {
         path: 'patients/:id/edit',
         name: 'edit-student',
         component: EditStudentView
