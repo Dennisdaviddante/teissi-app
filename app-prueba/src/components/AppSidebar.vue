@@ -54,7 +54,7 @@
         <SidebarLink
           to="/psychologist/dashboard/report"
           icon="fas fa-chart-bar"
-          text="Reportes"
+          text="Evaluaciones"
         />
         <SidebarLink
           to="/psychologist/dashboard/history"

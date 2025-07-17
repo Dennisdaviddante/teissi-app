@@ -73,7 +73,7 @@ const routes = [
         component: () => import('../views/psychologist/ProfileView.vue')
       },
       {
-        path: 'report',
+        path: 'Evaluaciones',
         name: 'report-pdf',
         component: () => import('../views/psychologist/ReportPDF.vue')
       },
