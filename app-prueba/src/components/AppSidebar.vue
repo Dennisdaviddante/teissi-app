@@ -52,7 +52,7 @@
           text="Estadísticas"
         />
         <SidebarLink
-          to="/psychologist/dashboard/report"
+          to="/psychologist/dashboard/evaluaciones"
           icon="fas fa-chart-bar"
           text="Evaluaciones"
         />

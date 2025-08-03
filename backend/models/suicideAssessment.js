@@ -93,7 +93,12 @@ const suicideAssessmentSchema = Schema({
             }
         }
     },
-    riskLevel: {
+    ideationRiskLevel: {
+        type: String,
+        enum: ['BAJO', 'MODERADO-BAJO', 'MODERADO', 'ALTO', 'MUY_ALTO', 'EXTREMO'],
+        required: true
+    },
+    behaviorRiskLevel: {
         type: String,
         enum: ['BAJO', 'MODERADO-BAJO', 'MODERADO', 'ALTO', 'MUY_ALTO', 'EXTREMO'],
         required: true
@@ -202,29 +207,55 @@ suicideAssessmentSchema.methods.shouldContinueAssessment = function() {
 
 // Método para calcular automáticamente el nivel de riesgo
 suicideAssessmentSchema.methods.calculateRiskLevel = function() {
+      let ideationRiskLevel = 'BAJO';
+    let behaviorRiskLevel = 'BAJO';
+     if (this.actualAttempt.present === true) {
+        behaviorRiskLevel ='MUY_ALTO';
+    }
+    if (this.nonSuicidalSelfInjury.present === true) {
+        behaviorRiskLevel = 'ALTO';
+    }
+    if (this.unknownIntentSelfInjury.present === true) {
+        behaviorRiskLevel = 'MODERADO';
+    }
+    if (this.interruptedAttempt.present === true) {
+        behaviorRiskLevel = 'MODERADO';
+    }
+
     const ideationType = this.ideationIntensity.mostSeriousIdeationType;
     const frequency = this.ideationIntensity.frequency;
 
-    // Si no hay tipo de ideación, el riesgo es BAJO
-    if (!ideationType) {
-        return 'BAJO';
+     if (ideationType) {
+        const trueRisk = (ideationType + frequency) / 2;
+        if (trueRisk <= 1.5) {
+            ideationRiskLevel = 'BAJO';
+        } else if (trueRisk <= 2.5) {
+            ideationRiskLevel = 'MODERADO-BAJO';
+        } else if (trueRisk <= 3.5) {
+            ideationRiskLevel = 'MODERADO';
+        } else if (trueRisk <= 4) {
+            ideationRiskLevel = 'ALTO';
+        } else {
+            ideationRiskLevel = 'MUY_ALTO';
+        }
     }
 
-    // Calcula el "riesgo verdadero" promediando los valores
-    const trueRisk = (ideationType + frequency) / 2;
+    // const trueRisk = (ideationType + frequency) / 2;
 
-    // Mapea el valor de 'trueRisk' a los niveles de riesgo definidos
-    if (trueRisk <= 1.5) { // Por ejemplo, (1+0)/2 = 0.5, (1+1)/2 = 1, (2+0)/2 = 1, (2+1)/2 = 1.5
-        return 'BAJO';
-    } else if (trueRisk <= 2.5) { // Por ejemplo, (2+2)/2 = 2, (3+1)/2 = 2, (3+2)/2 = 2.5
-        return 'MODERADO-BAJO';
-    } else if (trueRisk <= 3.5) { // Por ejemplo, (3+3)/2 = 3, (4+2)/2 = 3, (4+3)/2 = 3.5
-        return 'MODERADO';
-    } else if (trueRisk <= 4) { // Por ejemplo, (4+4)/2 = 4, (5+3)/2 = 4, (5+4)/2 = 4.5
-        return 'ALTO';
-    } else { // Si trueRisk es mayor a 4.5 (solo posible con 5+4 = 4.5, pero con valores flotantes podría ser 4.6, 4.7...)
-        return 'MUY_ALTO'; // O 'EXTREMO' si quieres un umbral más alto para este.
-    }
+    // // Mapea el valor de 'trueRisk' a los niveles de riesgo definidos
+    // if (trueRisk <= 1.5) { // Por ejemplo, (1+0)/2 = 0.5, (1+1)/2 = 1, (2+0)/2 = 1, (2+1)/2 = 1.5
+    //     ideationRiskLevel  = 'BAJO';
+    // } else if (trueRisk <= 2.5) { // Por ejemplo, (2+2)/2 = 2, (3+1)/2 = 2, (3+2)/2 = 2.5
+    //     ideationRiskLevel  = 'MODERADO-BAJO';
+    // } else if (trueRisk <= 3.5) { // Por ejemplo, (3+3)/2 = 3, (4+2)/2 = 3, (4+3)/2 = 3.5
+    //     ideationRiskLevel  = 'MODERADO';
+    // } else if (trueRisk <= 4) { // Por ejemplo, (4+4)/2 = 4, (5+3)/2 = 4, (5+4)/2 = 4.5
+    //     ideationRiskLevel  = 'ALTO';
+    // } else { // Si trueRisk es mayor a 4.5 (solo posible con 5+4 = 4.5, pero con valores flotantes podría ser 4.6, 4.7...)
+    //     ideationRiskLevel  = 'MUY_ALTO'; // O 'EXTREMO' si quieres un umbral más alto para este.
+    // }
+
+    return { ideationRiskLevel, behaviorRiskLevel };
 };
 
 module.exports = model('SuicideAssessment', suicideAssessmentSchema);
