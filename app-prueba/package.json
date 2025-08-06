@@ -10,8 +10,11 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@vuepic/vue-datepicker": "^11.0.2",
     "apexcharts": "^4.7.0",
     "axios": "^1.10.0",
+    "datepicker": "^0.0.0",
+    "flowbite": "^3.1.2",
     "lucide-vue-next": "^0.525.0",
     "pinia": "^3.0.1",
     "sweetalert2": "^11.22.0",

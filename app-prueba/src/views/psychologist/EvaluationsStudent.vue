@@ -348,142 +348,207 @@
 
         <FormCardd v-if="currentStep === 4" title="Sección 4: Comportamiento Suicida"
           description="Evaluación de planes o comportamientos suicidas recientes." :icon="ActivityIcon">
-          <div class="assessment-section behavior-section">
-            <h3>Comportamiento Suicida</h3>
-
-            <div class="assessment-item">
-              <h4>Intento Real</h4>
-              <p class="description">
-                Un acto potencialmente autolesivo cometido con cierto deseo de morir como resultado.
-              </p>
-              <div class="questions">
-                <p>¿Hiciste algo para tratar de matarte o para dejar de vivir?</p>
-                <p>¿Te hiciste daño a propósito?</p>
+          <div class="space-y-6">
+            <div class="alert-danger">
+              <div class="flex items-center space-x-2 mb-2">
+                <AlertTriangleIcon class="h-5 w-5" />
+                <h4 class="font-semibold">Evaluación de Comportamiento Suicida</h4>
               </div>
-              <div class="response-section">
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" v-model="assessment.actualAttempt.present" :value="true" required> Sí
-                  </label>
-                  <label>
-                    <input type="radio" v-model="assessment.actualAttempt.present" :value="false" required> No
-                  </label>
-                </div>
-                <div v-if="assessment.actualAttempt.present" class="additional-info">
-                  <textarea v-model="assessment.actualAttempt.description" placeholder="Describe lo que sucedió..."
-                    rows="2" required></textarea>
-                  <div class="number-input">
-                    <label>Número total de intentos:</label>
-                    <input type="number" v-model.number="assessment.actualAttempt.totalAttempts" min="0">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="assessment-item">
-              <h4>Comportamiento Autolesivo No Suicida</h4>
-              <div class="response-section">
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" v-model="assessment.nonSuicidalSelfInjury.present" :value="true" required> Sí
-                  </label>
-                  <label>
-                    <input type="radio" v-model="assessment.nonSuicidalSelfInjury.present" :value="false" required> No
-                  </label>
-                </div>
-                <textarea v-if="assessment.nonSuicidalSelfInjury.present"
-                  v-model="assessment.nonSuicidalSelfInjury.description" placeholder="Describe el comportamiento..."
-                  rows="2" required></textarea>
-              </div>
-            </div>
-
-            <div class="assessment-item">
-              <h4>Intento Interrumpido</h4>
-              <p class="description">
-                Cuando la persona es interrumpida al empezar un acto potencialmente autolesivo.
-              </p>
-              <div class="questions">
-                <p>¿Ha habido algún momento en que empezaste a hacer algo para dejar de vivir pero alguien o algo te
-                  detuvo?</p>
-              </div>
-              <div class="response-section">
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" v-model="assessment.interruptedAttempt.present" :value="true" required> Sí
-                  </label>
-                  <label>
-                    <input type="radio" v-model="assessment.interruptedAttempt.present" :value="false" required> No
-                  </label>
-                </div>
-                <div v-if="assessment.interruptedAttempt.present" class="additional-info">
-                  <textarea v-model="assessment.interruptedAttempt.description" placeholder="Describe lo que sucedió..."
-                    rows="2" required></textarea>
-                  <div class="number-input">
-                    <label>Número total de intentos interrumpidos:</label>
-                    <input type="number" v-model.number="assessment.interruptedAttempt.totalAttempts" min="0">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="assessment-item">
-              <h4>Intento Abortado</h4>
-              <p class="description">
-                Cuando la persona empieza a prepararse pero se detiene por sí misma antes de tener un comportamiento
-                autodestructivo.
-              </p>
-              <div class="questions">
-                <p>¿Ha habido algún momento en que empezaste a hacer algo para dejar de vivir pero cambiaste de idea?
+              <div class="text-sm space-y-1">
+                <p><strong>Importante:</strong> Marque todos los que correspondan, siempre que sean eventos diferentes.
                 </p>
+                <p>Debe preguntar sobre todos los tipos de comportamiento.</p>
+                <p class="text-xs italic">Período de evaluación: Desde la última visita o período específico</p>
               </div>
-              <div class="response-section">
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" v-model="assessment.abortedAttempt.present" :value="true" required> Sí
+            </div>
+            <div class="space-y-4">
+              <div class="bg-red-50 p-4 rounded-lg">
+                <p class="text-sm font-medium text-gray-700 mb-2">
+                  Comportamiento concebido como método para matarse (la intención no necesita ser 100%)
+                </p>
+                <div class="text-xs text-gray-600 space-y-1">
+                  <p>• ¿Hiciste algo para tratar de matarte o dejar de vivir?</p>
+                  <p>• ¿Te hiciste daño a propósito? ¿Por qué?</p>
+                  <p>• ¿Querías morirte cuando hiciste _____?</p>
+                  <p>• ¿Pensaste que era posible que podrías haber muerto?</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <label class="flex items-center cursor-pointer">
+                    <input type="radio" v-model="assessment.actualAttempt.present" :value="true" required
+                      class="form-radio">
+                    <span class="ml-2 text-sm">Si</span>
                   </label>
-                  <label>
-                    <input type="radio" v-model="assessment.abortedAttempt.present" :value="false" required> No
+                  <label class="flex items-center cursor-pointer">
+                    <input type="radio" v-model="assessment.actualAttempt.present" :value="false" required
+                      class="form-radio">
+                    <span class="ml-2 text-sm">No</span>
                   </label>
                 </div>
-                <div v-if="assessment.abortedAttempt.present" class="additional-info">
-                  <textarea v-model="assessment.abortedAttempt.description" placeholder="Describe lo que sucedió..."
-                    rows="2" required></textarea>
-                  <div class="number-input">
-                    <label>Número total de intentos abortados:</label>
-                    <input type="number" v-model.number="assessment.abortedAttempt.totalAttempts" min="0">
+                <div class="space-y-4" v-if="assessment.actualAttempt.present">
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Descripción detallada del intento:
+                    </label>
+                    <textarea v-model="assessment.actualAttempt.description" placeholder="Describe lo que sucedió..."
+                      rows="2" required></textarea>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                      <label for="total-attempts" class="block text-sm font-medium text-gray-700">
+                        Número total de intentos
+                      </label>
+                      <input type="number" v-model.number="assessment.actualAttempt.totalAttempts" min="0"
+                        class="form-input">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-orange-50 p-4 rounded-lg">
+                <p class="text-sm font-medium text-gray-700 mb-2">
+                  Persona interrumpida al empezar un acto autolesivo (de no ser así, habría ocurrido)
+                </p>
+                <div class="text-xs text-gray-600 space-y-1">
+                  <p><strong>Ejemplos:</strong></p>
+                  <p>• Sobredosis: tenía pastillas pero le impidieron ingerirlas</p>
+                  <p>• Dispararse: tenía pistola apuntando, otra persona se la quitó</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.interruptedAttempt.present" :value="true"
+                      required>
+                    <span class="ml-2 text-sm">Si</span>
+                  </label>
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.interruptedAttempt.present"
+                      :value="false" required>
+                    <span class="ml-2 text-sm">No</span>
+                  </label>
+                </div>
+                <div class="space-y-4" v-if="assessment.interruptedAttempt.present">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                      <label for="total-attempts" class="block text-sm font-medium text-gray-700">
+                        Número total de intentos
+                      </label>
+                      <input type="number" v-model.number="assessment.interruptedAttempt.totalAttempts" min="0"
+                        class="form-input">
+                    </div>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Descripción detallada del intento:
+                    </label>
+                    <textarea v-model="assessment.interruptedAttempt.description"
+                      placeholder="Describe el comportamiento..." rows="2" required></textarea>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-yellow-50 p-4 rounded-lg">
+                <p class="text-sm font-medium text-gray-700 mb-2">
+                  Empezó a prepararse pero se detuvo antes de tener comportamiento autodestructivo
+                </p>
+                <div class="text-xs text-gray-600">
+                  <p>• ¿Empezaste a hacer algo para dejar de vivir pero cambiaste de idea antes de hacerlo realmente?
+                  </p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.abortedAttempt.present" :value="true"
+                      required>
+                    <span class="ml-2 text-sm">Si</span>
+                  </label>
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.abortedAttempt.present" :value="false"
+                      required>
+                    <span class="ml-2 text-sm">No</span>
+                  </label>
+                </div>
+                <div class="space-y-4" v-if="assessment.abortedAttempt.present">
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Descripción detallada del intento:
+                    </label>
+                    <textarea v-model="assessment.abortedAttempt.description" placeholder="Describe lo que sucedió..."
+                      rows="2" required></textarea>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                      <label for="total-attempts" class="block text-sm font-medium text-gray-700">
+                        Número total de intentos
+                      </label>
+                      <input type="number" v-model.number="assessment.abortedAttempt.totalAttempts" min="0"
+                        class="form-radio">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-yellow-50 p-4 rounded-lg">
+                <p class="text-sm font-medium text-gray-700 mb-2">
+                  Preparativos más allá de pensamientos o palabras
+                </p>
+                <div class="text-xs text-gray-600 space-y-1">
+                  <p><strong>Ejemplos:</strong></p>
+                  <p>• Obtener método específico (pastillas, arma)</p>
+                  <p>• Regalar pertenencias</p>
+                  <p>• Escribir nota de despedida</p>
+                  <p>• Hacer arreglos finales</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.preparatoryActs.present" :value="true"
+                      required>
+                    <span class="ml-2 text-sm">Si</span>
+                  </label>
+                  <label class="flex items-center cursor-pointer">
+                    <input class="form-radio" type="radio" v-model="assessment.preparatoryActs.present" :value="false"
+                      required>
+                    <span class="ml-2 text-sm">No</span>
+                  </label>
+                </div>
+                <div class="space-y-4" v-if="assessment.preparatoryActs.present">
+                  <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">
+                      Descripción detallada del intento:
+                    </label>
+                    <textarea v-model="assessment.preparatoryActs.description" placeholder="Describe lo que sucedió..."
+                      rows="2" required></textarea>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                      <label for="total-attempts" class="block text-sm font-medium text-gray-700">
+                        Número total de intentos
+                      </label>
+                      <input type="number" v-model.number="assessment.preparatoryActs.totalAttempts" min="0"
+                        class="form-radio">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="assessment-item">
-              <h4>Actos o Comportamiento Preparatorios</h4>
-              <p class="description">
-                Actos o preparativos para llevar a cabo un inminente intento de suicidio.
-              </p>
-              <div class="questions">
-                <p>¿Has hecho algo para estar listo/a para dejar de vivir, como regalar cosas, escribir una nota de
-                  despedida?</p>
-              </div>
-              <div class="response-section">
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" v-model="assessment.preparatoryActs.present" :value="true" required> Sí
-                  </label>
-                  <label>
-                    <input type="radio" v-model="assessment.preparatoryActs.present" :value="false" required> No
-                  </label>
-                </div>
-                <textarea v-if="assessment.preparatoryActs.present" v-model="assessment.preparatoryActs.description"
-                  placeholder="Describe los actos preparatorios..." rows="2" required></textarea>
-              </div>
-            </div>
-
-            <div v-if="assessment.actualAttempt.present" class="assessment-item">
-              <h4>Grado de Letalidad y Lesiones</h4>
-              <div class="select-group">
-                <label>Grado de letalidad:</label>
-                <select v-model.number="assessment.lethalityDegree" required>
+          </div>
+          <div class="space-y-6">
+            <div class="space-y-4">
+              <h4 class="text-base font-semibold text-gray-900">Grado de letalidad y lesiones</h4>
+              <div class="space-y-3" v-if="assessment.actualAttempt.present">
+                <label class="flex items-start cursor-pointer">Grado de letalidad:</label>
+                <select v-model.number="assessment.lethalityDegree" required
+                  class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-drak dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value="0">0 - No hay daño físico o muy poco daño físico</option>
                   <option value="1">1 - Daño físico menor</option>
                   <option value="2">2 - Daño físico moderado</option>
@@ -492,26 +557,34 @@
                   <option value="5">5 - Muerte</option>
                 </select>
               </div>
-
-              <div v-if="assessment.lethalityDegree === 0" class="select-group">
-                <label>Letalidad potencial:</label>
-                <select v-model.number="assessment.potentialLethality" required>
+            </div>
+            <div class="space-y-4" v-if="assessment.lethalityDegree === 0">
+              <div class="space-y-3">
+                <label class="flex items-start cursor-pointer">Letalidad potencial:</label>
+                <select v-model.number="assessment.potentialLethality" required
+                  class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-drak dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value="0">0 - Comportamiento con poca probabilidad de lesiones</option>
                   <option value="1">1 - Comportamiento con probabilidad de lesiones pero no de muerte</option>
                   <option value="2">2 - Comportamiento con probabilidad de muerte</option>
                 </select>
               </div>
-
-              <div class="date-input">
-                <label>Fecha del intento más letal:</label>
-                <input type="date" v-model="assessment.mostLethalAttemptDate" :max="today" required>
+            </div>
+            <div class="space-y-4">
+              <div class="space-y-3">
+                <div class="relative max-w-sm">
+                  <label class="flex items-start cursor-pointer">
+                    Fecha:
+                  </label>
+                  <input type="date" v-model="assessment.mostLethalAttemptDate" :max="today"
+                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                </div>
               </div>
             </div>
           </div>
+
         </FormCardd>
 
         <FormCardd v-if="currentStep === totalSteps + 1" title="Resultados y Conclusión"
-          description="Resumen de la evaluación y observaciones finales." :icon="CheckCircleIcon">
           description="Resumen de la evaluación y observaciones finales." :icon="CheckCircleIcon">
           <div class="space-y-6">
             <div>
@@ -523,31 +596,34 @@
                 </span>
               </div>
               <ul class="mt-4 list-disc list-inside text-sm text-gray-600">
-                <li v-if="assessment.deathWish ">Deseo de morir: {{ assessment.deathWish.present ? 'Si' : 'No' }}. Observación: {{
-                  assessment.deathWish.description ? assessment.deathWish.description : 'No detalles'}}</li>
-                <li 
-                v-if="assessment.nonSpecificActiveSuicidalThoughts">
-                Pensamientos suicidas no específicos:
-                  Sí. 
-                Observación: {{ assessment.nonSpecificActiveSuicidalThoughts.description }}
-              </li>
-                <li 
-                v-if="assessment.activeSuicidalIdeationWithMethods">
-                Ideación con métodos: 
-                {{ assessment.activeSuicidalIdeationWithMethods.present ? 'Sí' : 'No' }}. 
-                Observación: 
-                {{ assessment.activeSuicidalIdeationWithMethods.description ? assessment.activeSuicidalIdeationWithMethods.description : 'No detalles' }}
-              </li>
+                <li v-if="assessment.deathWish">Deseo de morir: {{ assessment.deathWish.present ? 'Si' : 'No' }}.
+                  Observación: {{
+                    assessment.deathWish.description ? assessment.deathWish.description : 'No detalles' }}</li>
+                <li v-if="assessment.nonSpecificActiveSuicidalThoughts">
+                  Pensamientos suicidas no específicos:
+                  Sí.
+                  Observación: {{ assessment.nonSpecificActiveSuicidalThoughts.description }}
+                </li>
+                <li v-if="assessment.activeSuicidalIdeationWithMethods">
+                  Ideación con métodos:
+                  {{ assessment.activeSuicidalIdeationWithMethods.present ? 'Sí' : 'No' }}.
+                  Observación:
+                  {{ assessment.activeSuicidalIdeationWithMethods.description ?
+                    assessment.activeSuicidalIdeationWithMethods.description : 'No detalles' }}
+                </li>
                 <li v-if="assessment.activeSuicidalIdeationWithIntent">
-                  Ideación con intención: {{ assessment.activeSuicidalIdeationWithIntent.present ? 'Si' : 'No' }}. Observación:
-                  {{ assessment.activeSuicidalIdeationWithIntent.description ? assessment.activeSuicidalIdeationWithIntent.description: 'No detalles' }}
+                  Ideación con intención: {{ assessment.activeSuicidalIdeationWithIntent.present ? 'Si' : 'No' }}.
+                  Observación:
+                  {{ assessment.activeSuicidalIdeationWithIntent.description ?
+                    assessment.activeSuicidalIdeationWithIntent.description : 'No detalles' }}
                 </li>
                 <li v-if="assessment.activeSuicidalIdeationWithPlan">
-                  Ideación con plan: 
+                  Ideación con plan:
                   {{ assessment.activeSuicidalIdeationWithPlan.present ? 'Si' : 'No' }}. ´
                   Observación: {{
-                  assessment.activeSuicidalIdeationWithPlan.description ? assessment.activeSuicidalIdeationWithPlan.description : 'No Detalles' }}
-                  </li>
+                    assessment.activeSuicidalIdeationWithPlan.description ?
+                      assessment.activeSuicidalIdeationWithPlan.description : 'No Detalles' }}
+                </li>
               </ul>
             </div>
 
@@ -560,10 +636,9 @@
                 </span>
               </div>
               <ul class="mt-4 list-disc list-inside text-sm text-gray-600">
-                <li v-if="assessment.actualAttempt.present">Intento Real: {{ assessment.actualAttempt.present ? 'Si' : 'No' }} Observación: {{
-                  assessment.actualAttempt.description }}. Intentos: {{ assessment.actualAttempt.totalAttempts }}</li>
-                <li v-if="assessment.nonSuicidalSelfInjury.present">Autolesión No Suicida: Sí. Observación: {{
-                  assessment.nonSuicidalSelfInjury.description }}</li>
+                <li v-if="assessment.actualAttempt.present">Intento Real: {{ assessment.actualAttempt.present ? 'Si' :
+                  'No' }} Observación: {{
+                    assessment.actualAttempt.description }}. Intentos: {{ assessment.actualAttempt.totalAttempts }}</li>
                 <li v-if="assessment.interruptedAttempt.present">Intento Interrumpido: Sí. Observación: {{
                   assessment.interruptedAttempt.description }}. Intentos: {{ assessment.interruptedAttempt.totalAttempts
                   }}</li>
@@ -611,9 +686,11 @@
 
 <script>
 import FormCardd from '@/components/FormCardd.vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Se mantiene Swal, ya estaba en tu código
 import {
+
   FileText as FileTextIcon,
   User as UserIcon,
   Brain as BrainIcon,
@@ -676,14 +753,6 @@ export default {
           description: '',
           totalAttempts: 0
         },
-        nonSuicidalSelfInjury: {
-          present: false,
-          description: ''
-        },
-        unknownIntentSelfInjury: {
-          present: false,
-          description: ''
-        },
         interruptedAttempt: {
           present: false,
           description: '',
@@ -722,15 +791,15 @@ export default {
         this.ideationRiskLevel = 'MUY_ALTO';
       } else if (this.assessment.activeSuicidalIdeationWithIntent.present === true) {
         this.ideationRiskLevel = 'ALTO'
-      } else if (this.assessment.activeSuicidalIdeationWithMethods.present === true ) {
+      } else if (this.assessment.activeSuicidalIdeationWithMethods.present === true) {
         this.ideationRiskLevel = 'MODERADO-BAJO'
       }
-       else if (this.assessment.nonSpecificActiveSuicidalThoughts.present === true) {
+      else if (this.assessment.nonSpecificActiveSuicidalThoughts.present === true) {
         this.ideationRiskLevel = 'MEDIO'
-      
-      } else if (this.assessment.deathWish.present === true ) {
+
+      } else if (this.assessment.deathWish.present === true) {
         this.ideationRiskLevel = 'BAJO'
-      }else if( this.assessment.deathWish.present === false && this.assessment.nonSpecificActiveSuicidalThoughts.present === false){
+      } else if (this.assessment.deathWish.present === false && this.assessment.nonSpecificActiveSuicidalThoughts.present === false) {
         this.ideationRiskLevel = 'BAJO'
       }
 
@@ -738,11 +807,9 @@ export default {
       if (this.assessment.actualAttempt.present === true) {
         this.behaviorRiskLevel = 'MUY_ALTO';
       }
-      if (this.assessment.nonSuicidalSelfInjury.present === true) {
-        this.behaviorRiskLevel = 'ALTO';
-      }
+
       if (this.assessment.interruptedAttempt.present === true) {
-        this.behaviorRiskLevel = 'MODERADO';
+        this.behaviorRiskLevel = 'ALTO';
       }
       if (this.assessment.abortedAttempt.present === true) {
         this.behaviorRiskLevel = 'MODERADO';
@@ -816,8 +883,6 @@ export default {
 
     resetBehaviorFields() {
       this.assessment.actualAttempt = { present: null, description: '', totalAttempts: 0 };
-      this.assessment.nonSuicidalSelfInjury = { present: null, description: '' };
-      this.assessment.unknownIntentSelfInjury = { present: null, description: '' };
       this.assessment.interruptedAttempt = { present: null, description: '', totalAttempts: 0 };
       this.assessment.abortedAttempt = { present: null, description: '', totalAttempts: 0 };
       this.assessment.preparatoryActs = { present: null, description: '' };
@@ -1162,7 +1227,9 @@ export default {
     'assessment.nonSpecificActiveSuicidalThoughts.present': 'updateRiskLevel',
 
   },
+
   setup() {
+
     return {
       UserIcon,
       FileTextIcon,

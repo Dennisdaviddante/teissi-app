@@ -35,7 +35,7 @@ const suicideAssessmentSchema = Schema({
     activeSuicidalIdeationWithMethods: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.nonSpecificActiveSuicidalThoughts.present === true;
             },
             default: false
@@ -45,7 +45,7 @@ const suicideAssessmentSchema = Schema({
     activeSuicidalIdeationWithIntent: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.nonSpecificActiveSuicidalThoughts.present === true;
             },
             default: false
@@ -55,7 +55,7 @@ const suicideAssessmentSchema = Schema({
     activeSuicidalIdeationWithPlan: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.nonSpecificActiveSuicidalThoughts.present === true;
             },
             default: false
@@ -75,20 +75,20 @@ const suicideAssessmentSchema = Schema({
             type: Number,
             min: 1,
             max: 5,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === true || this.nonSpecificActiveSuicidalThoughts.present === true;
             }
         },
         mostSeriousIdeationDescription: {
             type: String,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === true || this.nonSpecificActiveSuicidalThoughts.present === true;
             }
         },
         frequency: { // Esta es la frecuencia que usaremos para ajustar el riesgo
             type: Number,
             enum: [0, 1, 2, 3, 4], // 0: No sabe/No corresponde, 1: Solo una vez, 2: Unas pocas veces, 3: Muchas, 4: Todo el tiempo
-            required: function() {
+            required: function () {
                 return this.deathWish.present === true || this.nonSpecificActiveSuicidalThoughts.present === true;
             }
         }
@@ -109,7 +109,7 @@ const suicideAssessmentSchema = Schema({
     actualAttempt: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
             }
         },
@@ -119,28 +119,36 @@ const suicideAssessmentSchema = Schema({
             default: 0
         }
     },
-    nonSuicidalSelfInjury: {
-        present: {
-            type: Boolean,
-            required: function() {
-                return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
-            }
-        },
-        description: String
-    },
-    unknownIntentSelfInjury: {
-        present: {
-            type: Boolean,
-            required: function() {
-                return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
-            }
-        },
-        description: String
-    },
+    // nonSuicidalSelfInjury: {
+    //     present: {
+    //         type: Boolean,
+    //         required: function () {
+    //             return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
+    //         }
+    //     },
+    //     description: String,
+    //     totalAttempts: {
+    //         type: Number,
+    //         default: 0
+    //     }
+    // },
+    // unknownIntentSelfInjury: {
+    //     present: {
+    //         type: Boolean,
+    //         required: function () {
+    //             return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
+    //         }
+    //     },
+    //     description: String,
+    //     totalAttempts: {
+    //         type: Number,
+    //         default: 0
+    //     }
+    // },
     interruptedAttempt: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
             }
         },
@@ -153,7 +161,7 @@ const suicideAssessmentSchema = Schema({
     abortedAttempt: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
             }
         },
@@ -166,7 +174,7 @@ const suicideAssessmentSchema = Schema({
     preparatoryActs: {
         present: {
             type: Boolean,
-            required: function() {
+            required: function () {
                 return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
             }
         },
@@ -195,37 +203,37 @@ const suicideAssessmentSchema = Schema({
 });
 
 // Método para validar si debe mostrar preguntas adicionales de ideación
-suicideAssessmentSchema.methods.shouldShowAdditionalIdeation = function() {
+suicideAssessmentSchema.methods.shouldShowAdditionalIdeation = function () {
     return this.nonSpecificActiveSuicidalThoughts.present === true;
 };
 
 // Método para validar si debe continuar con la evaluación de comportamiento
-suicideAssessmentSchema.methods.shouldContinueAssessment = function() {
+suicideAssessmentSchema.methods.shouldContinueAssessment = function () {
     // Solo continuar si ambas preguntas son negativas
     return this.deathWish.present === false && this.nonSpecificActiveSuicidalThoughts.present === false;
 };
 
 // Método para calcular automáticamente el nivel de riesgo
-suicideAssessmentSchema.methods.calculateRiskLevel = function() {
-      let ideationRiskLevel = 'BAJO';
+suicideAssessmentSchema.methods.calculateRiskLevel = function () {
+    let ideationRiskLevel = 'BAJO';
     let behaviorRiskLevel = 'BAJO';
-     if (this.actualAttempt.present === true) {
-        behaviorRiskLevel ='MUY_ALTO';
-    }
-    if (this.nonSuicidalSelfInjury.present === true) {
-        behaviorRiskLevel = 'ALTO';
-    }
-    if (this.unknownIntentSelfInjury.present === true) {
-        behaviorRiskLevel = 'MODERADO';
+    if (this.actualAttempt.present === true) {
+        behaviorRiskLevel = 'MUY_ALTO';
     }
     if (this.interruptedAttempt.present === true) {
+        behaviorRiskLevel = 'ALTO';
+    }
+    if (this.abortedAttempt.present === true) {
+        behaviorRiskLevel = 'MODERADO';
+    }
+    if (this.preparatoryActs.present === true) {
         behaviorRiskLevel = 'MODERADO';
     }
 
     const ideationType = this.ideationIntensity.mostSeriousIdeationType;
     const frequency = this.ideationIntensity.frequency;
 
-     if (ideationType) {
+    if (ideationType) {
         const trueRisk = (ideationType + frequency) / 2;
         if (trueRisk <= 1.5) {
             ideationRiskLevel = 'BAJO';
