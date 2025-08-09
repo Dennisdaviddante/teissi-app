@@ -17,6 +17,55 @@ const bcrypt = require('bcryptjs');
  * Obtiene la lista de psicólogos
  * Solo accesible por administradores
  */
+
+const psychologistGet = async(req = request, res = response) => {
+    try {
+        // La validación de que el usuario está logueado se hace en el middleware
+        
+        // Construir query para psicólogos activos
+        const query = { 
+            role: 'PSYCHOLOGIST',
+            status: true
+        };
+
+        // Obtener psicólogos y total
+        const [total, psychologists] = await Promise.all([
+            User.countDocuments(query),
+            User.find(query, {
+                firstName: 1,
+                lastName: 1,
+                email: 1,
+                role: 1,
+                status: 1
+            })
+        ]);
+
+        // Obtener el conteo de estudiantes para cada psicólogo
+        const psychologistsWithStudentCount = await Promise.all(
+            psychologists.map(async (psychologist) => {
+                const studentCount = await Student.countDocuments({
+                    assignedPsychologist: psychologist._id,
+                    status: true
+                });
+                return {
+                    ...psychologist.toObject(),
+                    studentCount
+                };
+            })
+        );
+
+        res.json({
+            total,
+            psychologists: psychologistsWithStudentCount
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            msg: 'Error al obtener la lista de psicólogos'
+        });
+    }
+};
 const userget = async(req = request, res = response) => {
     try {
         // Verificar que sea admin
@@ -362,5 +411,6 @@ module.exports={
     userput,
     userdelete,
     getAdmin,
-    uploadImages
+    uploadImages,
+    psychologistGet
 }

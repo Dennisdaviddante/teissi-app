@@ -40,6 +40,16 @@ const routes = [
         name: 'admin-home',
         component: () => import('../views/AdminHomeView.vue')
       },
+       {
+        path: 'static-admin',
+        name: 'static-admin',
+        component: () => import('../views/staticsadmin.vue')
+      },
+      {
+        path: 'profile-admin',
+        name: 'profile-admin',
+        component: () => import('../views/ProfileAdmin.vue')
+      },
       {
         path: '',
         redirect: { name: 'admin-home' }

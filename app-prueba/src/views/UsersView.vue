@@ -54,7 +54,7 @@ Características:
             </div>
             <div class="stat-item">
               <i class="fas fa-calendar-check"></i>
-              <span>{{ user.sessionCount || 0 }} Sesiones</span>
+              <span>{{ totalpicologos}} evaluaciones</span>
             </div>
           </div>
         </div>
@@ -181,6 +181,7 @@ Características:
  * @requires sweetalert2 - Biblioteca para mostrar alertas personalizadas
  */
 import Swal from 'sweetalert2'
+import axios from 'axios';
 
 /**
  * Componente de gestión de psicólogos
@@ -200,6 +201,8 @@ export default {
       /**
        * Lista de usuarios y estado de filtros
        */
+      psicolgos:'',
+      totalpicologos: 0,
       users: [],
       filteredUsers: [],
       searchQuery: '',
@@ -266,12 +269,44 @@ export default {
    */
   created() {
     this.fetchUsers()
+    this.fetchAssessments()
   },
 
   /**
    * Métodos del componente
    */
   methods: {
+
+
+    async fetchAssessments() {
+      this.isLoading = true;
+      try {
+        const token = localStorage.getItem('x-token');
+        if (!token) {
+          console.error('No se encontró el token de autenticación.');
+          this.isLoading = false;
+          return;
+        }
+        
+        const response = await axios.get('http://localhost:3000/api/statistics/all-assessments', { 
+          params: this.filters,
+          headers: {
+            'x-token': token
+          }
+        });
+        
+        const data = response.data.length;
+        this.totalpicologos = data
+        
+
+        
+      } catch (error) {
+        console.error('Error al obtener datos de la API:', error.message);
+        console.error('Detalles del error:', error.response || error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
     /**
      * Valida un campo específico del formulario
      * @param {string} field - Nombre del campo a validar

@@ -6,7 +6,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const User = require('../models/user');
-const { userget, userpost, userdelete, userput, getAdmin, uploadImages, } = require('../controllers/user.controller.js');
+const { userget, userpost, userdelete, userput, getAdmin, uploadImages,psychologistGet } = require('../controllers/user.controller.js');
 const { validateFields } = require('../middlewares/validate-fields');
 const { esRoleValid, esEmailValid } = require('../helpers/db-validator');
 const { validateJWT } = require('../middlewares/vlaidate-jwt.js');
@@ -23,6 +23,10 @@ router.get('/', [
     validateJWT
 ], userget)
 
+
+router.get('/psychologistslist', [
+    validateJWT
+], psychologistGet);
 /**
  * GET /api/users/admin
  * Obtiene los datos del administrador

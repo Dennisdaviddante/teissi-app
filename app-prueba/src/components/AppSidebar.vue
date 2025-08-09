@@ -20,7 +20,7 @@
           text="Inicio"
         />
         <SidebarLink
-          to="/dashboard/profile"
+          to="/dashboard/profile-admin"
           icon="fas fa-user"
           text="Mi Perfil"
         />
@@ -29,6 +29,12 @@
           icon="fas fa-users"
           text="Lista de Psicólogos"
         />
+        <SidebarLink
+          to="/dashboard/tatic-adminn"
+          icon="fas fa-users"
+          text="Estadisticas"
+        />
+
       </template>
       <template v-else>
         <SidebarLink
